@@ -1,0 +1,120 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background-color: #f4f7fe;
+    margin: 0;
+    padding: 0;
+    color: #222;
+}
+
+.conteneur {
+    max-width: 900px;
+    margin: 40px auto;
+    background: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.conteneur-formulaire {
+    max-width: 420px;
+    margin: 60px auto;
+    background: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.entete {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+h1 {
+    color: #1e2761;
+    margin-top: 0;
+}
+
+label {
+    display: block;
+    margin-top: 12px;
+    margin-bottom: 4px;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+input, textarea {
+    width: 100%;
+    padding: 8px 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.bouton {
+    display: inline-block;
+    background-color: #1e2761;
+    color: #fff;
+    padding: 10px 18px;
+    border: none;
+    border-radius: 4px;
+    text-decoration: none;
+    cursor: pointer;
+    font-size: 14px;
+    margin-top: 15px;
+    margin-right: 8px;
+}
+
+.bouton-secondaire {
+    background-color: #6b7280;
+}
+
+button {
+    display: inline-block;
+    background-color: #1e2761;
+    color: #fff;
+    padding: 10px 18px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-top: 15px;
+}
+
+.actions-liste {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.tableau {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+.tableau th, .tableau td {
+    text-align: left;
+    padding: 10px;
+    border-bottom: 1px solid #e5e7eb;
+    font-size: 14px;
+}
+
+.tableau th {
+    background-color: #cadcfc;
+    color: #1e2761;
+}
+
+.message-erreur {
+    background-color: #fdecea;
+    color: #c0392b;
+    padding: 10px;
+    border-radius: 4px;
+    font-size: 14px;
+}

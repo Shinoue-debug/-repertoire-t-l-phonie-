@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block titre %}{{ "Modifier le contact" if contact else "Ajouter un contact" }}{% endblock %}
+{% block contenu %}
+<div class="conteneur-formulaire">
+    <h1>{{ "Modifier le contact" if contact else "Ajouter un contact" }}</h1>
+    {% if erreur %}
+        <p class="message-erreur">{{ erreur }}</p>
+    {% endif %}
+    <form method="post">
+        <label for="nom">Nom</label>
+        <input type="text" id="nom" name="nom" value="{{ contact['nom'] if contact else '' }}" required>
+
+        <label for="prenom">Prénom</label>
+        <input type="text" id="prenom" name="prenom" value="{{ contact['prenom'] if contact else '' }}" required>
+
+        <label for="telephone">Téléphone</label>
+        <input type="text" id="telephone" name="telephone" value="{{ contact['telephone'] if contact else '' }}">
+
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" value="{{ contact['email'] if contact else '' }}">
+
+        <label for="notes">Notes</label>
+        <textarea id="notes" name="notes" rows="3">{{ contact['notes'] if contact else '' }}</textarea>
+
+        <label for="tags">Tags</label>
+        <input type="text" id="tags" name="tags" value="{{ contact_tags | join(', ') if contact_tags else '' }}" placeholder="famille, amis, client">
+
+        <button type="submit">Enregistrer</button>
+        <a href="{{ url_for('index') }}" class="bouton bouton-secondaire">Annuler</a>
+    </form>
+</div>
+{% endblock %}

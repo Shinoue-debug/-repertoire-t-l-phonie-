@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block titre %}Mes Contacts{% endblock %}
+{% block contenu %}
+<div class="conteneur">
+    <div class="entete">
+        <h1>Mes Contacts</h1>
+        <div>
+            <span>Connecté : {{ session['nom_utilisateur'] }}</span>
+            <a href="{{ url_for('logout') }}" class="bouton bouton-secondaire">Déconnexion</a>
+        </div>
+    </div>
+
+    <div class="actions-liste">
+        <a href="{{ url_for('ajouter_contact') }}" class="bouton">+ Ajouter un contact</a>
+        <a href="{{ url_for('exporter_contacts') }}" class="bouton bouton-secondaire">Exporter CSV</a>
+        <a href="{{ url_for('importer_contacts') }}" class="bouton bouton-secondaire">Importer CSV</a>
+    </div>
+
+    <table class="tableau">
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Prénom</th>
+                <th>Téléphone</th>
+                <th>Email</th>
+                <th>Tags</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if not contacts %}
+            <tr><td colspan="6">Aucun contact enregistré.</td></tr>
+            {% endif %}
+            {% for c in contacts %}
+            <tr>
+                <td>{{ c['nom'] }}</td>
+                <td>{{ c['prenom'] }}</td>
+                <td>{{ c['telephone'] }}</td>
+                <td>{{ c['email'] }}</td>
+                <td>
+                    {% if c['tags'] %}
+                        {{ c['tags'] | join(', ') }}
+                    {% else %}
+                        -
+                    {% endif %}
+                </td>
+                <td>
+                    <a href="{{ url_for('modifier_contact', id=c['id']) }}">Modifier</a>
+                    &nbsp;|&nbsp;
+                    <a href="{{ url_for('supprimer_contact', id=c['id']) }}"
+                       onclick="return confirm('Supprimer ce contact ?');">Supprimer</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

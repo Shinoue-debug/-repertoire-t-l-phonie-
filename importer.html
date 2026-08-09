@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block titre %}Importer des contacts{% endblock %}
+{% block contenu %}
+<div class="conteneur-formulaire">
+    <h1>Importer des contacts</h1>
+    {% if erreur %}
+        <p class="message-erreur">{{ erreur }}</p>
+    {% endif %}
+    <form method="post" enctype="multipart/form-data">
+        <label for="fichier">Fichier CSV</label>
+        <input type="file" id="fichier" name="fichier" accept=".csv" required>
+        <p>Le fichier doit contenir des colonnes : nom, prenom, telephone, email, notes, tags.</p>
+        <button type="submit">Importer</button>
+        <a href="{{ url_for('index') }}" class="bouton bouton-secondaire">Annuler</a>
+    </form>
+</div>
+{% endblock %}
