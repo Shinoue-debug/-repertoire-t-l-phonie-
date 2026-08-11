@@ -41,6 +41,23 @@ def normaliser_tags(texte):
     return tags
 
 
+def normaliser_tags_liste(liste):
+    """Convertit une liste de tags (venant d'un formulaire multi-valeurs) en
+    liste propre, sans doublons (insensible à la casse) et sans entrées vides."""
+    if not liste:
+        return []
+
+    tags = []
+    vus = set()
+    for valeur in liste:
+        tag = (valeur or "").strip()
+        cle = tag.lower()
+        if tag and cle not in vus:
+            tags.append(tag)
+            vus.add(cle)
+    return tags
+
+
 def enregistrer_tags(conn, contact_id, tags):
     """Associe un contact à ses tags, en remplaçant les anciennes associations."""
     conn.execute("DELETE FROM contact_tags WHERE contact_id = ?", (contact_id,))
@@ -179,7 +196,11 @@ def ajouter_contact():
         telephone = request.form.get("telephone", "").strip()
         email = request.form.get("email", "").strip()
         notes = request.form.get("notes", "").strip()
-        tags = normaliser_tags(request.form.get("tags", ""))
+        tags_liste = request.form.getlist("tags")
+        if len(tags_liste) <= 1:
+            tags = normaliser_tags(request.form.get("tags", ""))
+        else:
+            tags = normaliser_tags_liste(tags_liste)
 
         if not nom or not prenom:
             erreur = "Le nom et le prénom sont obligatoires."
@@ -228,7 +249,11 @@ def modifier_contact(id):
         telephone = request.form.get("telephone", "").strip()
         email = request.form.get("email", "").strip()
         notes = request.form.get("notes", "").strip()
-        tags = normaliser_tags(request.form.get("tags", ""))
+        tags_liste = request.form.getlist("tags")
+        if len(tags_liste) <= 1:
+            tags = normaliser_tags(request.form.get("tags", ""))
+        else:
+            tags = normaliser_tags_liste(tags_liste)
 
         if not nom or not prenom:
             erreur = "Le nom et le prénom sont obligatoires."

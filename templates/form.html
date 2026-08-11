@@ -22,11 +22,79 @@
         <label for="notes">Notes</label>
         <textarea id="notes" name="notes" rows="3">{{ contact['notes'] if contact else '' }}</textarea>
 
-        <label for="tags">Tags</label>
-        <input type="text" id="tags" name="tags" value="{{ contact_tags | join(', ') if contact_tags else '' }}" placeholder="famille, amis, client">
+        <label for="tags-input-visible">Tags</label>
+        <div class="tags-champ" id="tags-container">
+            <input type="text" id="tags-input-visible" placeholder="Ajouter un tag et appuyer sur Entrée">
+        </div>
+        <p class="tags-aide">Appuie sur Entrée ou virgule pour ajouter un tag. Clique sur la croix pour le retirer.</p>
 
         <button type="submit">Enregistrer</button>
         <a href="{{ url_for('index') }}" class="bouton bouton-secondaire">Annuler</a>
     </form>
 </div>
+
+<script>
+(function () {
+    const container = document.getElementById('tags-container');
+    const visibleInput = document.getElementById('tags-input-visible');
+    const tagsInitiales = {{ contact_tags | tojson if contact_tags else '[]' }};
+
+    function tagExiste(nom) {
+        return Array.from(container.querySelectorAll('input[name="tags"]'))
+            .some((input) => input.value.toLowerCase() === nom.toLowerCase());
+    }
+
+    function ajouterTag(nom) {
+        const valeur = nom.trim();
+        if (!valeur || tagExiste(valeur)) {
+            return;
+        }
+
+        const chip = document.createElement('span');
+        chip.className = 'tag-chip';
+
+        const texte = document.createElement('span');
+        texte.textContent = valeur;
+        chip.appendChild(texte);
+
+        const hidden = document.createElement('input');
+        hidden.type = 'hidden';
+        hidden.name = 'tags';
+        hidden.value = valeur;
+        chip.appendChild(hidden);
+
+        const supprimer = document.createElement('button');
+        supprimer.type = 'button';
+        supprimer.setAttribute('aria-label', 'Retirer le tag ' + valeur);
+        supprimer.textContent = '×';
+        supprimer.addEventListener('click', function () {
+            chip.remove();
+        });
+        chip.appendChild(supprimer);
+
+        container.insertBefore(chip, visibleInput);
+    }
+
+    tagsInitiales.forEach(ajouterTag);
+
+    visibleInput.addEventListener('keydown', function (event) {
+        if (event.key === 'Enter' || event.key === ',') {
+            event.preventDefault();
+            ajouterTag(visibleInput.value.replace(/,$/, ''));
+            visibleInput.value = '';
+        } else if (event.key === 'Backspace' && visibleInput.value === '') {
+            const chips = container.querySelectorAll('.tag-chip');
+            if (chips.length > 0) {
+                chips[chips.length - 1].remove();
+            }
+        }
+    });
+
+    container.addEventListener('click', function (event) {
+        if (event.target === container) {
+            visibleInput.focus();
+        }
+    });
+})();
+</script>
 {% endblock %}
