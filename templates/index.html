@@ -39,9 +39,13 @@
                 <td>{{ c['email'] }}</td>
                 <td>
                     {% if c['tags'] %}
-                        {{ c['tags'] | join(', ') }}
+                        <div class="tags-liste">
+                            {% for tag in c['tags'] %}
+                            <span class="tag-badge">{{ tag }}</span>
+                            {% endfor %}
+                        </div>
                     {% else %}
-                        -
+                        <span class="tag-vide">-</span>
                     {% endif %}
                 </td>
                 <td>

@@ -10,6 +10,7 @@
         <label for="fichier">Fichier CSV</label>
         <input type="file" id="fichier" name="fichier" accept=".csv" required>
         <p>Le fichier doit contenir des colonnes : nom, prenom, telephone, email, notes, tags.</p>
+        <p class="tags-aide">Pour associer plusieurs tags à un même contact, sépare-les par une virgule ou un point-virgule dans la colonne <strong>tags</strong> (ex : <em>famille, client VIP</em>).</p>
         <button type="submit">Importer</button>
         <a href="{{ url_for('index') }}" class="bouton bouton-secondaire">Annuler</a>
     </form>
